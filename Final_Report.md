@@ -116,17 +116,12 @@ In this controlled environment, I will attempt to address the following research
 - Can a deep neural network be trained using physiologically plausible artificial training data be used to generally segment real medical imaging data? 
 - Ronneberger et al train the model using 30 training images; with sufficient data augmentation, is 30 images enough? 
 
-Several additional questions arose during the model generation phase:  
-
-- Can a unet trained on style transferred images learn the style of true data with the content of artificial data?   
-- Does such a model perform better on real data? 
-
 ## Data generation
 The results of this project will be presented in these two categories. 
 
 The results of the *data generation phase* are useful for demonstrating the robustness of the model to various changes in data. In this phase, segmentation will be qualitatively compared with watershed segmentations. The goal will be to investigate how the U-Net resolves small angles.
 
-The results of the *architecture testing phase* provide a means for evaluation and help guide the next steps of the project. In this stage, models will be quantitatively compared using various metrics.
+The results of the *architecture testing phase* provide a means for evaluation and help guide the next steps of the project. In this stage, models will be quantitatively compared using the previously described metrics.
 
 All results were generated using the GPU resources (Tesla K80) of Google Colab.
 
