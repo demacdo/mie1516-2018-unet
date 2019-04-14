@@ -222,7 +222,13 @@ Results of this segmentation are shown here:
 
 > Fig 13. Acquired image, ground truth, image predicted by U-Net, and watershed segmentation of acquired image.  
 
-Again, overlays of edges are shown to qualitatively compare the edges of the segmentation.  
+Again, overlays of edges are shown to qualitatively compare the edges of the segmentation.
+
+- Ground truth is <span style="color:red">**red**</span>
+- Watershed is <span style="color:green">**green**</span>
+- Predicted is <span style="color:blue">**blue**</span>
+
+  
 ![phaseI](results/an_test_015_std/Overlays/an_test_015_stdoverlay_im0005.png)  
 
 > Fig 14. From left to right: <span style="color:red">ground truth</span> vs <span style="color:green">watershed</span> vs <span style="color:blue">prediction</span>; ground truth vs prediction; ground truth vs watershed. 
@@ -249,6 +255,12 @@ The model was trained until no improvement in validation loss occurred for 10 co
 
 > Fig 16. Acquired image, ground truth, image predicted by U-Net, and watershed segmentation of acquired image. 
 
+Overlaid outlines:
+
+- Ground truth is <span style="color:red">**red**</span>
+- Watershed is <span style="color:green">**green**</span>
+- Predicted is <span style="color:blue">**blue**</span>
+
 ![phaseI](results/arch1_standard_r01/Overlays/arch1_standard_r01overlay_im0005.png)
 
 > Fig 17. From left to right: <span style="color:red">ground truth</span> vs <span style="color:green">watershed</span> vs <span style="color:blue">prediction</span>; ground truth vs prediction; ground truth vs watershed. 
@@ -264,6 +276,12 @@ After a single epoch, this model achieved >98.8% validation accuracy. This archi
 
 > Fig 18. Acquired image, ground truth, image predicted by U-Net, and watershed segmentation of acquired image.  
 
+Overlaid outlines:
+
+- Ground truth is <span style="color:red">**red**</span>
+- Watershed is <span style="color:green">**green**</span>
+- Predicted is <span style="color:blue">**blue**</span>
+
 ![phaseI](results/arch2_batch_adam_r01/Overlays/arch2_batch_adam_r01overlay_im0005.png)
 
 > Fig 19. From left to right: <span style="color:red">ground truth</span> vs <span style="color:green">watershed</span> vs <span style="color:blue">prediction</span>; ground truth vs prediction; ground truth vs watershed. 
@@ -273,6 +291,13 @@ After a single epoch, this model achieved >98.8% validation accuracy. This archi
 In the previous architectures, cross entropy was used as the loss function. For the final architecture, I wanted to try a custom loss function. Focal loss was introduced by Lin et al in 2018. This loss function was designed to down-weight the loss assigned to well-classified examples. This property seemed appealing since a large portion of pixels in the training images are unambiguous. This loss simply adds a modulating factor to the cross entropy loss, with a tunable focusing parameter. The Adam optimizer was used with batch normalization, as in Architecture 2. 
 
 ![phaseI](results/arch3_batch_adam_focal/transposed/arch3_batch_adam_focal_Original_GroundTruth_Prediction5.png)
+
+Overlaid outlines:
+
+- Ground truth is <span style="color:red">**red**</span>
+- Watershed is <span style="color:green">**green**</span>
+- Predicted is <span style="color:blue">**blue**</span>
+
 
 > Fig 20. Acquired image, ground truth, image predicted by U-Net, and watershed segmentation of acquired image.
 
@@ -313,6 +338,13 @@ Qualitatively, these three architectures performed similarly. Quantitative scori
 > Table 2. Performance of each architecture variation in the U-Net.
 
 Additional overlay figures produced using Architecture 2 are shown here to further assess the quality of segmentation. In all cases, the prediction was qualitatively better than watershed segmentation.
+
+Overlaid outlines:
+
+- Ground truth is <span style="color:red">**red**</span>
+- Watershed is <span style="color:green">**green**</span>
+- Predicted is <span style="color:blue">**blue**</span>
+
 
 ![arch2](results/arch2_batch_adam_r01/Overlays/arch2_batch_adam_r01overlay_im0001.png)
 ![arch2](results/arch2_batch_adam_r01/Overlays/arch2_batch_adam_r01overlay_im0002.png)
