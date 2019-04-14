@@ -370,3 +370,60 @@ This project was heavily based on the repo [Retina blood vessel segmentation wit
 [5] T. Lin, P. Goyal, R. Girshick, K. He, P. Dollar, “Focal Loss for Dense Object Detection,” 2018.
 
 [6] D. Cortinovis, Orobix Srl, "Retina blood vessel segmentation with a convolution neural network (U-net)". 2016. 
+
+
+## Appendix 
+### Results
+An example of the 20 tested images and results generated using Architecture 3 are shown below. Overlaid outlines follow. Qualitatively, the generated results for each of the architectures look quite similar, showing only small variations. Further results may be observed in the Results folder.
+
+From left to right: input image, ground truth image, predicted image, watershed.
+
+#### Architecture 3: 
+![phaseI](results/arch3_batch_adam_focal/transposed/arch3_batch_adam_focal_Original_GroundTruth_Prediction0.png)
+![phaseI](results/arch3_batch_adam_focal/transposed/arch3_batch_adam_focal_Original_GroundTruth_Prediction1.png)
+![phaseI](results/arch3_batch_adam_focal/transposed/arch3_batch_adam_focal_Original_GroundTruth_Prediction2.png)
+![phaseI](results/arch3_batch_adam_focal/transposed/arch3_batch_adam_focal_Original_GroundTruth_Prediction3.png)
+![phaseI](results/arch3_batch_adam_focal/transposed/arch3_batch_adam_focal_Original_GroundTruth_Prediction4.png)
+![phaseI](results/arch3_batch_adam_focal/transposed/arch3_batch_adam_focal_Original_GroundTruth_Prediction5.png)
+![phaseI](results/arch3_batch_adam_focal/transposed/arch3_batch_adam_focal_Original_GroundTruth_Prediction6.png)
+![phaseI](results/arch3_batch_adam_focal/transposed/arch3_batch_adam_focal_Original_GroundTruth_Prediction7.png)
+![phaseI](results/arch3_batch_adam_focal/transposed/arch3_batch_adam_focal_Original_GroundTruth_Prediction8.png)
+![phaseI](results/arch3_batch_adam_focal/transposed/arch3_batch_adam_focal_Original_GroundTruth_Prediction9.png)
+![phaseI](results/arch3_batch_adam_focal/transposed/arch3_batch_adam_focal_Original_GroundTruth_Prediction10.png)
+![phaseI](results/arch3_batch_adam_focal/transposed/arch3_batch_adam_focal_Original_GroundTruth_Prediction11.png)
+![phaseI](results/arch3_batch_adam_focal/transposed/arch3_batch_adam_focal_Original_GroundTruth_Prediction12.png)
+![phaseI](results/arch3_batch_adam_focal/transposed/arch3_batch_adam_focal_Original_GroundTruth_Prediction13.png)
+![phaseI](results/arch3_batch_adam_focal/transposed/arch3_batch_adam_focal_Original_GroundTruth_Prediction14.png)
+![phaseI](results/arch3_batch_adam_focal/transposed/arch3_batch_adam_focal_Original_GroundTruth_Prediction15.png)
+![phaseI](results/arch3_batch_adam_focal/transposed/arch3_batch_adam_focal_Original_GroundTruth_Prediction16.png)
+![phaseI](results/arch3_batch_adam_focal/transposed/arch3_batch_adam_focal_Original_GroundTruth_Prediction17.png)
+![phaseI](results/arch3_batch_adam_focal/transposed/arch3_batch_adam_focal_Original_GroundTruth_Prediction18.png)
+![phaseI](results/arch3_batch_adam_focal/transposed/arch3_batch_adam_focal_Original_GroundTruth_Prediction19.png)
+
+Overlaid outlines:
+
+- Ground truth is <span style="color:red">**red**</span>
+- Watershed is <span style="color:green">**green**</span>
+- Predicted is <span style="color:blue">**blue**</span>
+
+
+![phaseI](results/arch3_batch_adam_focal/Overlays/arch3_batch_adam_focaloverlay_im0000.png)
+![phaseI](results/arch3_batch_adam_focal/Overlays/arch3_batch_adam_focaloverlay_im0001.png)
+![phaseI](results/arch3_batch_adam_focal/Overlays/arch3_batch_adam_focaloverlay_im0002.png)
+![phaseI](results/arch3_batch_adam_focal/Overlays/arch3_batch_adam_focaloverlay_im0003.png)
+![phaseI](results/arch3_batch_adam_focal/Overlays/arch3_batch_adam_focaloverlay_im0004.png)
+![phaseI](results/arch3_batch_adam_focal/Overlays/arch3_batch_adam_focaloverlay_im0005.png)
+![phaseI](results/arch3_batch_adam_focal/Overlays/arch3_batch_adam_focaloverlay_im0006.png)
+![phaseI](results/arch3_batch_adam_focal/Overlays/arch3_batch_adam_focaloverlay_im0007.png)
+![phaseI](results/arch3_batch_adam_focal/Overlays/arch3_batch_adam_focaloverlay_im0008.png)
+![phaseI](results/arch3_batch_adam_focal/Overlays/arch3_batch_adam_focaloverlay_im0009.png)
+![phaseI](results/arch3_batch_adam_focal/Overlays/arch3_batch_adam_focaloverlay_im0010.png)
+![phaseI](results/arch3_batch_adam_focal/Overlays/arch3_batch_adam_focaloverlay_im0011.png)
+![phaseI](results/arch3_batch_adam_focal/Overlays/arch3_batch_adam_focaloverlay_im0012.png)
+![phaseI](results/arch3_batch_adam_focal/Overlays/arch3_batch_adam_focaloverlay_im0013.png)
+![phaseI](results/arch3_batch_adam_focal/Overlays/arch3_batch_adam_focaloverlay_im0014.png)
+![phaseI](results/arch3_batch_adam_focal/Overlays/arch3_batch_adam_focaloverlay_im0015.png)
+![phaseI](results/arch3_batch_adam_focal/Overlays/arch3_batch_adam_focaloverlay_im0016.png)
+![phaseI](results/arch3_batch_adam_focal/Overlays/arch3_batch_adam_focaloverlay_im0017.png)
+![phaseI](results/arch3_batch_adam_focal/Overlays/arch3_batch_adam_focaloverlay_im0018.png)
+![phaseI](results/arch3_batch_adam_focal/Overlays/arch3_batch_adam_focaloverlay_im0019.png)
