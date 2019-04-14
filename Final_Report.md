@@ -14,14 +14,16 @@ Using digitized patient-specific vasculature models extracted from clinical 3D a
 
 Our clinical collaborator currently segments 3D images using a watershed method, which generally results in surfaces that suitably represent the overall vasculature. However, this segmentation method commonly overestimates the diameter of the aneurysm neck, a critical geometric parameter for blood flow dynamics. Figure 1 illustrates the setting in which overestimation occurs. 
 
-<center><img src="report/figs/setting.png" width="700"></center>  
+<p align="center"><img src="report/figs/setting.png" width="700"></p>  
+
 > Fig 1. An illustration of neck overestimation due to watershed segmentation in an aneurysm.
 
 This overestimation appears to occur to due to the superposition of partial volume effects in small-angle geometries, such as those found between the aneurysm sac and the connecting parent artery. Overestimation of neck geometries may have non-negligible consequences for hemodynamic simulation using CFD by altering location of inflow jet, impingement zone, and low WSS area [1]. 
 
 In special circumstances, overestimation may be verified if multiple imaging modalities were used during treatment. For example, segmentations of a 3DRA image may be compared with high resolution, but two-dimensional, 2DDSA images. Figure 2, reproduced from Schneiders et al [1], illustrates this phenomena. Figure 2A shows an image of an aneurysm obtained by 3DRA; Fig 2B shows the same aneurysm imaged using 2DDSA. The neck appears wider in the lower-resolution 3DRA image. The resulting model generated from the 3DRA image (Fig 2C) maintains this inaccurate wide-neck. Figure 2D shows a modified model intended to more closely resemble the 2DDSA image. 
 
-<center><img src="report/figs/compare_.jpg" width="700"></center>  
+<p align="center"><img src="report/figs/compare_.jpg" width="700"></p> 
+  
 > Fig 2. Comparison of the aneurysm neck as imaged by 3DRA (A) and 2D DSA (B). The 3DRA image suggests a wider neck than 2D DSA, which is expressed in the original 3DRA-derived vascular model (C). D, The vascular model after modification. Figure and caption reproduced from Schneiders et al. 
 
 Our lab is not alone in this overestimation. In a 2018 intracranial aneurysm segmentation challenge, participants were given 3DRA images containing an aneurysm; participants were blind to high-resolution 2DDSA images. The resulting segmentations were then compared to 2DDSA clearly showing a thin neck. Of the 26 participating teams, 25 were observed to overestimate the neck diameter [2]. 
@@ -35,7 +37,8 @@ Aneurysm diameters are generally in the range 4-10 mm, and imaging resolutions a
 
 Consider the circle on the left of Fig 3 as a 'real life' representation of an artery. If the diameter of this sac is 3 mm, and the resolution of the imaging modality is 0.5 mm, the acquired image (centre) will look pixelated. For a 3mm sac, the sac will be 6 or 7 pixels across. This pixelated image can be upsampled with Gaussian filter antialiasing to appear as a blurred version of the true image, as shown on the right.  
 
-<center><img src="report/figs/compare.png" width="700"></center>  
+<p align="center"><img src="report/figs/compare.png" width="700"></p>  
+
 > Fig 3. An illustration of the limited resolution when imaging small aneurysmal sacs. Credit to Prof. David Steinman for the illustration. 
 
 Figure 2 shows a 3DRA image, and a 2DDSA image. 4DCTA images are of lower resolution than 3DRA, and are desired for their less-invasiveness acquisition procedures. As such, we desire to segment images of aneurysms with diameter of about 4-25 pixels. This range will roughly simulate the resolution and spatial constraints of real data. 
@@ -49,7 +52,8 @@ Intracranial aneurysms come in all shapes and sizes. Raghavan quantified shape a
 - Conicity index  
 - Bottleneck factor   
 
-<center><img src="report/figs/shapes.png" width="500"></center>   
+<p align="center"><img src="report/figs/shapes.png" width="500"></p>   
+
 > Fig 4. Selected shape indices of intracranial aneurysms. Reproduced from Raghavan et al.
 
 ### Description of U-Net
@@ -57,7 +61,8 @@ Deep learning has recently made significant advances in semantic image segmentat
 
 The U-Net as described by Ronneberger et al (Fig 5) contains a contracting path (left) and an expanding path (right). The contracting path serves as an encoding structure, consisting of 3x3 convolutions followed by a rectified linear unit (ReLU) and 2x2 max pooling layers for downsampling. At each downsampling step, the number of feature channels is doubled. This contracting path allows the network to capture higher-level context. The symmetric expanding path acts as a decoder of the downsampled image. This decoding path consists of upsampling layers followed by ReLU activation and convolution layers. The number of feature channels is halved after each up-convolution. By connecting the contracting path with expansive path, image context is combined with precise localization. This fully convolutional network contains 23 convolutional layers. The authors trained the U-Net with stochastic gradient descent (SGD) using cross entropy as the loss function.
 
-<center><img src="report/figs/unet.png" width="800"></center>   
+<p align="center"><img src="report/figs/unet.png" width="800"></p>   
+
 > Fig 5. U-net architecture (example for 32x32 pixels in the lowest resolution). Each blue box corresponds to a multi-channel feature map. The number of channels is denoted on top of the box. The x-y-size is provided at the lower left edge of the box. White boxes represent copied feature maps. The arrows denote the different operations. Caption and image reproduced from Ronneberger et al [4]. 
 
 Ronneberger et al claim very good segmentation performance with a very small dataset consisting of only 30 2D images of size 512x512. This performance is achieved through excessive data augmentation. Sub-patches from the input dataset are extracted in order to increase the apparent number of input images. Elastic deformations allow the network to learn invariance to slight anatomical variations, which will be particularly import for segmentation of soft structures such as blood vessels.
@@ -68,25 +73,25 @@ The initial objective of this project is to qualitatively compare the U-Net segm
 The images to segment will be grayscale. As such, the interior of the aneurysm and the background of the aneurysm will be relatively unambiguous for segmentation. For this reason, accuracy of segmentation is expected to be high. To evaluate segmentation of this artificial dataset, the following metrics will be used:  
 
 Cross entropy (CE) for binary classification [5]:
-<center><img src="report/figs/ce.png" width="35%"></center>   
+<p align="center"><img src="report/figs/ce.png" width="35%"></p>   
 
 where y is the target value, either 0 or 1, and p is the model's estimated probability for the class with label y=1. 
 
 Focal loss (FL) modulates cross entropy loss using *focusing* parameter gamma [5]. 
 Let:
-<center><img src="report/figs/pt.png" width="25%"></center>   
+<p align="center"><img src="report/figs/pt.png" width="25%"></p>   
 
-<center><img src="report/figs/fl.png" width="25%"></center>   
+<p align="center"><img src="report/figs/fl.png" width="25%"></p>   
 
-Thus, when an example is misclassified, p_t is small, and the modulating factor is near 1 and the loss is unaffected. As p_t goes to 1, the modulating factor goes to zero, and the loss for well-classified examples is down-weighted. When gamma = 0, FL is equivalent to CE. The authors found gamma=2 to work best in their experiments. 
+Thus, when an example is misclassified, p\_t is small, and the modulating factor is near 1 and the loss is unaffected. As p\_t goes to 1, the modulating factor goes to zero, and the loss for well-classified examples is down-weighted. When gamma = 0, FL is equivalent to CE. The authors found gamma=2 to work best in their experiments. 
 
 Jaccard similarity, otherwise known as intersection-over-union, is used for determining the similarity and of sample sets. 
 
-<center><img src="report/figs/iou.png" width="35%"></center>   
+<p align="center"><img src="report/figs/iou.png" width="35%"></p>   
 
 The Dice similarity, otherwise known as F1 score, will be reported for final architectures. This metric is [monotonic in Jaccard similarity](https://brenocon.com/blog/2012/04/f-scores-dice-and-jaccard-set-similarity/). The Dice coefficient is given by:
 
-<center><img src="report/figs/dice.png" width="25%"></center>   
+<p align="center"><img src="report/figs/dice.png" width="25%"></p>   
 
 
 For each final architecture, accuracy, precision, and recall will also be reported.  Given that we are interested in reducing the *overestimation* of the neck (reducing *false positives*), precision is expected to be of great importance.
@@ -143,7 +148,8 @@ To produce the "acquired" image, lightly randomized isometric Gaussian Blur is a
 
 This model, and all models in the Data Generation phase, was trained on overlapping sub-patches of 128x128, using a batch size of 32. The SGD optimizer was used with cross-entropy loss. The model was trained for 20 epochs. Models are generated using Keras with Tensorflow backend. Model details will be discussed in greater detail in the Architecture Testing section. Initially, 19000 sub-images were extracted. An example of sub-patches extracted from an image is shown in the following figure. 
 
-<center><img src="results/an_test_005/sample_input_imgs.png" width="50%"></center>   
+<p align="center"><img src="results/an_test_005/sample_input_imgs.png" width="50%"></p>   
+
 > Fig 6. Extracted sub-patches using limited augmentation. Some patches are blank. 
 
 The resulting segmentations are shown in the following figure. From left to right:  
@@ -155,6 +161,7 @@ The resulting segmentations are shown in the following figure. From left to righ
 ![phaseI](results/an_test_005/transposed/an_test_005_Original_GroundTruth_Prediction1.png)
 ![phaseI](results/an_test_005/transposed/an_test_005_Original_GroundTruth_Prediction9.png)
 ![phaseI](results/an_test_005/transposed/an_test_005_Original_GroundTruth_Prediction3.png) 
+
 > Fig 7. For three cases: acquired image, ground truth, image predicted by U-Net, and watershed segmentation of acquired image. 
 
 At this stage we see some improvement in the small angle sections. By comparing the second column (ground truth) with the last column (watershed), the reader may observe the overestimation issue with watershed segmentation of blurred images. Comparing the second column (ground truth) with the third column (U-Net predicted), we see qualitative improvement in these cases.  
@@ -162,13 +169,15 @@ At this stage we see some improvement in the small angle sections. By comparing 
 ### Data Generation II: More augmentation
 During this phase, sub-patches were constrained to fall within a particular distance from the centre of the image. This resulted in no blank images in the training set. An example of sub-patches extracted from an image is shown in the following figure. For subsequent data generation phases, this level of zoom, rotation, and flip will be maintained. 
 
-<center><img src="results/an_test_008_full/sample_input_imgs.png" width="50%"></center>   
+<p align="center"><img src="results/an_test_008_full/sample_input_imgs.png" width="50%"></p>   
+
 > Fig 8. Examples of data augmentation using rotation, shift, horizontal and vertical flipping, and patch extraction. 
 
 This model was trained on overlapping sub-patches of 128x128, using a batch size of 32. The SGD optimizer was used. The model was trained for 20 epochs. 19000 sub-images were extracted. 
 
 The blurred input image as compared with results of this phase for a single neck are shown here:  
 ![phaseI](results/an_test_008_full/transposed/an_test_008_Original_GroundTruth_Prediction3.png) 
+
 > Fig 9. Acquired image, ground truth, image predicted by U-Net, and watershed segmentation of acquired image. 
 
 To qualitatively compare the edges of the segmentation more directly, edges are extracted and overlaid. 
@@ -182,6 +191,7 @@ The leftmost image shows all edges; the middle shows predicted vs truth; the rig
 ![phaseI](results/an_test_008_full/Overlays/an_test_008overlay_im0001.png)
 ![phaseI](results/an_test_008_full/Overlays/an_test_008overlay_im0009.png)
 ![phaseI](results/an_test_008_full/Overlays/an_test_008overlay_im0003.png)   
+
 > Fig 10. From left to right: <span style="color:red">ground truth</span> vs <span style="color:green">watershed</span> vs <span style="color:blue">prediction</span>; ground truth vs prediction; ground truth vs watershed. 
 
 ### Data Generation III: Style augmentation
@@ -190,6 +200,7 @@ The biggest problem thus far is that the artificial images don't really look lik
 ![content](data/style_transfer/content/0002_manual1.gif)
 ![style](data/style_transfer/style/Untitled.002.png)
 ![result](data/style_transfer/result/0002_at_iteration_100.png)  
+
 > Fig 11. The content of an artificial mask (left) was combined with the style of a real image (centre) to create a style-transfered image (right).
 
 For a small selection of images, the style of real image data was transferred onto the content of artificial data. Style images were crudely extracted from 3DRA volumes using ParaView, while content images were generated as previously. An existing implementation of [Neural Style Transfer](https://keras.io/examples/neural_style_transfer/) using VGG19 was used to transfer the style. The details of this tangent will not be elaborated in detail. Suffice to say, style transfer produced interesting images, but the generation time for this images was prohibitively expensive. A model trained using 10 of these generated images provided reasonable results, but this exercise did not significantly contribute to the project, but is documented here for future reference.
@@ -202,15 +213,18 @@ For this stage of data generation, blurring is generated more carefully; the gro
 ![mask](data/DATA/training/1st_manual/0010_manual1.gif) 
 ![downsampled](data/DATA/training/downsampled/0010_down.gif)
 ![upsampled](data/DATA/training/images/0010.gif)  
+
 > Fig 12. Generation of blurred and noised images by downsampling. The centre image shows the "acquired" image. This sac is about 14 pixels in diameter. 
 
 Results of this segmentation are shown here:
 
 ![phaseI](results/an_test_015_std/transposed/an_test_015_std_Original_GroundTruth_Prediction5.png)  
+
 > Fig 13. Acquired image, ground truth, image predicted by U-Net, and watershed segmentation of acquired image.  
 
 Again, overlays of edges are shown to qualitatively compare the edges of the segmentation.  
 ![phaseI](results/an_test_015_std/Overlays/an_test_015_stdoverlay_im0005.png)  
+
 > Fig 14. From left to right: <span style="color:red">ground truth</span> vs <span style="color:green">watershed</span> vs <span style="color:blue">prediction</span>; ground truth vs prediction; ground truth vs watershed. 
 
 Images produced for each of these data generation stages can be found in the folders labelled an_test_*. 
@@ -225,15 +239,18 @@ For the remaining trials, 30 training images and 20 testing images are generated
 
 To establish a baseline, the architecture as described in Ronneberger's original paper will be tested. This model uses a mini-batch stochastic gradient descent optimizer with batch size of 64. Cross entropy is used as the loss function. Each 3x3 convolution layer is followed by a Dropout layer of 20%, following by a ReLU activation layer. The model architecture is shown in Fig 15. 
 
-<center><img src="results/arch1_standard_r01/arch1_standard_r01_model.png" width="100%"></center>   
+<p align="center"><img src="results/arch1_standard_r01/arch1_standard_r01_model.png" width="100%"></p>   
+
 > Fig 15. Standard model architecture.
 
 The model was trained until no improvement in validation loss occurred for 10 consecutive epochs; this resulted in 71 total epochs with a CPU time of 8h 4min and wall time of 5h 34min on Google Colab with GPU resources
 
 ![phaseI](results/arch1_standard_r01/transposed/arch1_standard_r01_Original_GroundTruth_Prediction5.png)
+
 > Fig 16. Acquired image, ground truth, image predicted by U-Net, and watershed segmentation of acquired image. 
 
 ![phaseI](results/arch1_standard_r01/Overlays/arch1_standard_r01overlay_im0005.png)
+
 > Fig 17. From left to right: <span style="color:red">ground truth</span> vs <span style="color:green">watershed</span> vs <span style="color:blue">prediction</span>; ground truth vs prediction; ground truth vs watershed. 
 
 ### Architecture 2: U-Net with BatchNormalization
@@ -244,9 +261,11 @@ The model was trained until no improvement in validation loss occurred for 10 co
 After a single epoch, this model achieved >98.8% validation accuracy. This architecture trained much faster than Architecture 1, stopping early after a total of 25 epochs, while Architecture 1 trained for 71 epochs.
 
 ![phaseI](results/arch2_batch_adam_r01/transposed/arch2_batch_adam_r01_Original_GroundTruth_Prediction5.png)
+
 > Fig 18. Acquired image, ground truth, image predicted by U-Net, and watershed segmentation of acquired image.  
 
 ![phaseI](results/arch2_batch_adam_r01/Overlays/arch2_batch_adam_r01overlay_im0005.png)
+
 > Fig 19. From left to right: <span style="color:red">ground truth</span> vs <span style="color:green">watershed</span> vs <span style="color:blue">prediction</span>; ground truth vs prediction; ground truth vs watershed. 
 
 
@@ -254,9 +273,11 @@ After a single epoch, this model achieved >98.8% validation accuracy. This archi
 In the previous architectures, cross entropy was used as the loss function. For the final architecture, I wanted to try a custom loss function. Focal loss was introduced by Lin et al in 2018. This loss function was designed to down-weight the loss assigned to well-classified examples. This property seemed appealing since a large portion of pixels in the training images are unambiguous. This loss simply adds a modulating factor to the cross entropy loss, with a tunable focusing parameter. The Adam optimizer was used with batch normalization, as in Architecture 2. 
 
 ![phaseI](results/arch3_batch_adam_focal/transposed/arch3_batch_adam_focal_Original_GroundTruth_Prediction5.png)
+
 > Fig 20. Acquired image, ground truth, image predicted by U-Net, and watershed segmentation of acquired image.
 
 ![phaseI](results/arch3_batch_adam_focal/Overlays/arch3_batch_adam_focaloverlay_im0005.png)
+
 > Fig 21. From left to right: <span style="color:red">ground truth</span> vs <span style="color:green">watershed</span> vs <span style="color:blue">prediction</span>; ground truth vs prediction; ground truth vs watershed. 
 
 This model was trained until no improvement in validation loss was observed for 10 iterations, resulting in 25 total iterations.
@@ -275,6 +296,7 @@ Table 1 summarizes the three architectures.
 | A1            |    SGD    |       Dropout       | Cross entropy |
 | A2            |    Adam   | Batch normalization | Cross entropy |
 | A3            |    Adam   | Batch normalization |   Focal loss  |
+
 > Table 1. Three variations of U-Net.
 
 Qualitatively, these three architectures performed similarly. Quantitative scoring follows in Table 2. 
@@ -287,6 +309,7 @@ Qualitatively, these three architectures performed similarly. Quantitative scori
 | SENSITIVITY                       | 0.9968 | **0.9982**  | 0.9977 |
 | SPECIFICITY                       | 0.9643 | **0.9677**  | 0.9674 |
 | PRECISION                         | 0.9737 | **0.9762**  | 0.9760 |
+
 > Table 2. Performance of each architecture variation in the U-Net.
 
 Additional overlay figures produced using Architecture 2 are shown here to further assess the quality of segmentation. In all cases, the prediction was qualitatively better than watershed segmentation.
@@ -296,6 +319,7 @@ Additional overlay figures produced using Architecture 2 are shown here to furth
 ![arch2](results/arch2_batch_adam_r01/Overlays/arch2_batch_adam_r01overlay_im0003.png)
 ![arch2](results/arch2_batch_adam_r01/Overlays/arch2_batch_adam_r01overlay_im0004.png)
 ![arch2](results/arch2_batch_adam_r01/Overlays/arch2_batch_adam_r01overlay_im0005.png)
+
 > Fig 22. From left to right: <span style="color:red">ground truth</span> vs <span style="color:green">watershed</span> vs <span style="color:blue">prediction</span>; ground truth vs prediction; ground truth vs watershed. 
 
 
